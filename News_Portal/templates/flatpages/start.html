@@ -1,0 +1,76 @@
+{% extends 'flatpages/default.html' %}
+{% load static %}
+
+{% block title %}
+Главная
+{% endblock title %}
+
+{% block MyCss %}
+	<meta charset="UTF-8">
+
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+	<!-- Modernizr -->
+	<script src="{% static 'js/modernizr.js' %}"></script>
+	<!-- Open Sans from Google Webfonts -->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+	<!-- Main styles file -->
+	<link rel="stylesheet" href="{% static 'css/Others css/style.css' %}" />
+
+{% endblock %}
+
+{% block MyContent %}
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+              <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+						<li class="nav-item"><a class="nav-link active" aria-current="page" href="" ><h4>Главная страница &nbsp;&nbsp;</h4> </a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/news/" ><h4>Новости</h4></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+	<!-- Animated background -->
+	<canvas id="bg-canvas"></canvas>
+	<div class="bg-img" style="width: 100%; height: 100%; position: fixed; background: url({% static 'images/hongkong-bg.jpg' %}) no-repeat center center; background-size: cover; "></div>
+
+			<!-- Footer -->
+		<div class="footer">
+			<div class="container">
+				All rights reserved 2023
+			</div>
+		</div>
+		<!-- Footer end -->
+
+	<!-- JavaScripts -->
+	<script src="{% static 'js/jquery.js' %}"></script>
+	<script src="{% static 'js/bezierCanvas.js' %}"></script>
+
+<script type="text/javascript">
+	$().ready(function(){
+		// Activate bezierCanvas plugin on a #bg-canvas element
+		$("#bg-canvas").bezierCanvas({
+			maxStyles: 3,
+			maxLines: 80,
+			strokeWidth: 0.5,
+			lineSpacing: 0.07,
+			spacingVariation: 0.07,
+			colorBase: {r: 100,g: 120,b: 200},
+			colorVariation: {r: 50, g: 50, b: 50},
+			moveCenterX: 0,
+			moveCenterY: 0,
+			delayVariation: 4,
+			globalAlpha: 0.4,
+			globalSpeed:200,
+		});
+	});
+	</script>
+{% endblock %}

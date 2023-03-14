@@ -19,9 +19,15 @@ class Author(models.Model):
         self.rating = 3 * post_rate + comment_rate
         self.save()
 
+    def __str__(self):
+        return f"{self.user}"
+
 
 class Category(models.Model):
     name_cat = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return f"{self.name_cat}"
 
 
 class Post(models.Model):
@@ -49,10 +55,17 @@ class Post(models.Model):
     def preview(self):
         return f'{self.text[:125]} + {"..."}'
 
+    def __str__(self):
+        data = 'Post from {}'.format(self.add_date_time.strftime('%d.%m.%Y %H:%M'))
+        return f"{data},{self.author},{self.title}"
+
 
 class PostCategory(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    news = models.ForeignKey(Post, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.news},from the category:  {self.category}"
 
 
 class Comment(models.Model):
@@ -69,3 +82,6 @@ class Comment(models.Model):
     def dislike(self):
         self.comment_rating -= 1
         self.save()
+
+    def __str__(self):
+        return f"{self.date_time}, {self.user}"
