@@ -14,7 +14,7 @@ stop_words = [
 @register.filter(name='censor')
 def censor(value):
     for a in stop_words:
-        value = value.replace(a, a[:1]+len(a) * '*')
+        value = value.replace(a, a[:1]+(len(a)-1) * '*')
     return value
 
 

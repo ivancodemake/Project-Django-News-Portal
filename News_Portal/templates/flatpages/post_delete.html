@@ -1,0 +1,27 @@
+{% extends 'flatpages/default.html' %}
+{% load static %}
+
+{% block content %}
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+        <h2 align="center">{{ page_title }}</h2>
+        </div>
+    </div>
+
+<hr>
+<br>
+<form action="" method="post">
+    {% csrf_token %}
+    <h4>Удалить пост с заголовком: "{{ object.title }}" ?</h4>
+    <div class="container" align="center">
+        <div class="col-lg-7" align="center"><br><br>
+            <input type="submit" value="Delete" class="btn btn-danger"/>
+            <a class="btn btn-secondary" role="button" href="{{ previous_page_url }}">Cancel</a>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock content %}

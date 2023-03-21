@@ -1,0 +1,26 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+{% load custom_tags %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col">
+        <h3 align="center">{{ page_title }}</h3>
+        </div>
+    </div>
+
+    <div class="container" align="center">
+        <div class="col-lg-7" align="center">
+            <form action="" method="post" class="my-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Сохранить" class="btn btn-primary"/>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
