@@ -1,4 +1,5 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import render
 from .forms import PostFormArticle, PostFormNews
@@ -21,7 +22,7 @@ class PostsList(ListView):
     model = Post
     ar_ne = "category_type"
     ordering = '-add_date_time'
-    template_name = 'flatpages/news.html'
+    template_name = 'flatpages/News.html'
     context_object_name = 'posts'
 
 
@@ -43,10 +44,11 @@ class SearchPosts(ListView):
         return context
 
 
-class ArticleCreate(CreateView):
+class ArticleCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = PostFormArticle
     model = Post
     template_name = 'flatpages/post_edit.html'
+    permission_required = ('News.add_post',)
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -59,10 +61,11 @@ class ArticleCreate(CreateView):
         return context
 
 
-class ArticleUpdate(UpdateView):
+class ArticleUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = PostFormArticle
     model = Post
     template_name = 'flatpages/post_edit.html'
+    permission_required = ('News.change_post',)
 
     def get_context_data(self, **kwargs) -> dict:
         context = super().get_context_data(**kwargs)
@@ -70,9 +73,10 @@ class ArticleUpdate(UpdateView):
         return context
 
 
-class ArticleDelete(DeleteView):
+class ArticleDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Post
     template_name = 'flatpages/post_delete.html'
+    permission_required = ('News.delete_post',)
     success_url = reverse_lazy('posts_list')
 
     def get_context_data(self, **kwargs) -> dict:
@@ -82,10 +86,11 @@ class ArticleDelete(DeleteView):
         return context
 
 
-class NewsCreate(CreateView):
+class NewsCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = PostFormNews
     model = Post
     template_name = 'flatpages/post_edit.html'
+    permission_required = ('News.add_post',)
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -98,10 +103,11 @@ class NewsCreate(CreateView):
         return context
 
 
-class NewsUpdate(UpdateView):
+class NewsUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = PostFormNews
     model = Post
     template_name = 'flatpages/post_edit.html'
+    permission_required = ('News.change_post',)
 
     def get_context_data(self, **kwargs) -> dict:
         context = super().get_context_data(**kwargs)
@@ -109,9 +115,10 @@ class NewsUpdate(UpdateView):
         return context
 
 
-class NewsDelete(DeleteView):
+class NewsDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Post
     template_name = 'flatpages/post_delete.html'
+    permission_required = ('News.delete_post',)
     success_url = reverse_lazy('posts_list')
 
     def get_context_data(self, **kwargs) -> dict:

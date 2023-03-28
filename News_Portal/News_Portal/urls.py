@@ -15,8 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from protect.views import IndexView
+
 
 urlpatterns = [
+    path('signin/', IndexView.as_view()),
     path('admin/', admin.site.urls),
     path('', include('News.urls')),
+    path('', include('protect.urls')),
+    path('account/', include('allauth.urls')),
+    path('sign/', include('sign.urls'))
 ]

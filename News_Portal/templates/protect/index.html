@@ -1,0 +1,25 @@
+{% extends "flatpages/default.html" %}
+
+{% block content %}
+
+<div class="container" align="center">
+    <div class="col-lg-5" align="center">
+        <br><br><br>
+
+        <h3>Пользователь: {{request.user.username}}</h3> <br>
+        <h3>Статус: {% if is_not_authors %} ПОЛЬЗОВАТЕЛЬ {% endif %} {% if is_authors %} АВТОР {% endif %}</h3>
+        <br><br>
+
+        <a class="btn btn-secondary" href="/sign/logout/">Выйти</a> &nbsp;&nbsp;&nbsp;&nbsp;
+
+        {% if is_not_authors %}
+        <a class="btn btn-success" href="/sign/upgrade_me/">Стать автором</a>
+        {% endif %}
+
+        {% if is_authors %}
+        <a class="btn btn-success" href="/sign/not_author/">Стать пользователем</a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

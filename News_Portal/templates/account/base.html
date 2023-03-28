@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>{% block head_title %}{% endblock head_title %}</title>
+    </head>
+
+<body>
+
+<br><br><br><br>
+
+<div class="container" align="center">
+    <table class="table">
+        <tr>
+           <th align="left">
+                {% block body %}
+                {% block content %}
+                {% endblock content %}
+                {% endblock body %}
+                {% block extra_body %}
+                {% endblock extra_body %}
+            </th>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
