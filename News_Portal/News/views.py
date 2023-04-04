@@ -1,10 +1,13 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .forms import PostFormArticle, PostFormNews
-from .models import Post
+from .models import Post, Category
 from .filters import PostFilter
+from django.contrib.auth.decorators import login_required
+
+from django.views.generic.base import View
 
 
 def start_page(request):
@@ -17,10 +20,10 @@ class PostDetail(DetailView):
     context_object_name = 'post'
 
 
-class PostsList(ListView):
+class PostsList(ListView, View):
     paginate_by = 10
     model = Post
-    ar_ne = "category_type"
+    # ar_ne = "category_type"
     ordering = '-add_date_time'
     template_name = 'flatpages/News.html'
     context_object_name = 'posts'
@@ -127,3 +130,40 @@ class NewsDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
         context['previous_page_url'] = reverse_lazy('posts_list')
         return context
 
+
+class CategoryListView(ListView):
+    paginate_by = 10
+    model = Post
+    template_name = 'flatpages/category_list.html'
+    context_object_name = 'category_news_list'
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, id=self.kwargs['pk'])
+        queryset = Post.objects.filter(category=self.category).order_by('-add_date_time')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_subscriber'] = self.request.user not in self.category.subscribers.all()
+        context['category'] = self.category
+        return context
+
+
+@login_required
+def subscribe(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
+    category.subscribers.add(user)
+
+    message = 'Вы успешно подписались на рассылку новостей категории - '
+    return render(request, 'flatpages/subscribe.html', {'category': category, 'message': message})
+
+
+@login_required
+def del_subscribe(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
+    category.subscribers.remove(user)
+
+    message = 'Вы успешно отписались от рассылки новостей категории - '
+    return render(request, 'flatpages/subscribe.html', {'category': category, 'message': message})

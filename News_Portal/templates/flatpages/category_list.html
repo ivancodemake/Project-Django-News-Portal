@@ -1,32 +1,31 @@
 {% extends 'flatpages/default.html' %}
 
+{% load static %}
 {% load custom_filters %}
 {% load custom_tags %}
 
 {% block title %}
-Поиск
+Категории
 {% endblock title %}
 
 {% block content %}
-<br>
-    <div class="container" align="center">
-        <div class="col-lg-5" align="center">
-    <form action="" method="GET">
-        {{ search_filter.form.as_p }}
-        <input type="submit" value="Найти" class="btn btn-success" />
-        <a class="btn btn-secondary" role="button" href="{{ request.path }}">Сбросить фильтры</a>
-    </form>
-</div>
-</div>
+
 <br>
 
-<div class="col-lg-12">
-    <div class="col-lg-12 text-center">
-    <h3 class="width">Результат поиска</h3>
-<!--    <h5>Найдено публикаций: {{ posts.all|length }}</h5>-->
-</div>
-<div class="container wb">
-    <table class="table">
+  <div class="container wb">
+        <h4>Список новостей в категории "{{category}}"</h4>
+
+          <br>
+          <h6>Публикаций на странице: {{category_news_list|length}}</h6>
+          <br>
+
+{% if is_not_subscriber %}
+    <p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-success">Подписаться</a></p>
+{% else %}
+    <p class="text-center"><a href="{% url 'del_subscribe' category.id %}" class="btn btn-secondary">Отписаться</a></p>
+{% endif %}
+
+  <table class="table">
         <thead>
         <tr>
             <th scope="col"><h6 align="center"><b>Заголовок</b></h6></th>
@@ -40,20 +39,19 @@
         </thead>
 
         <tbody>
-        {% for post_n in posts %}
+        {% for post_n in category_news_list %}
         <tr>
-            <td ><a href="../news/{{ post_n.pk }}">{{ post_n.title }}</a></td>
-            <td>
-                {% for category in post_n.category.all %}
+            <td><a href="../news/{{ post_n.pk }}">{{ post_n.title }}</a></td>
+                <td>
                     <div class="col">
                         <h6 align="center">
                             <a href="{% url 'category_list' category.id %}">{{ category }}</a>
                         </h6>
                     </div>
-                {% endfor %}
-            </td>
+                </td>
             <td>{{ post_n.add_date_time | date:'d M Y' }}</td>
             <td>{{ post_n.text | truncatechars:20|censor}}</td>
+
 
         {% if post_n.category_type == "NE" %}
             <td>
@@ -63,7 +61,6 @@
                     </h6>
                 </div>
             </td>
-
         {% elif post_n.category_type == "AR" %}
             <td>
                 <div class="col">
@@ -93,7 +90,6 @@
         </tbody>
     </table>
 </div>
-</div>
 
 {# Пагинация #}
 
@@ -121,5 +117,4 @@
         </ul>
     </nav>
 </div>
-{% endblock content %}
-
+{% endblock %}

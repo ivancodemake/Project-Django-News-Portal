@@ -1,4 +1,5 @@
 {% extends 'flatpages/default.html' %}
+
 {% load static %}
 {% load custom_filters %}
 {% load custom_tags %}
@@ -21,10 +22,11 @@
   <table class="table">
         <thead>
         <tr>
-            <th scope="col">Заголовок</th>
-            <th scope="col">Дата публикации</th>
-            <th scope="col">Текст</th>
-            <th scope="col">Тип</th>
+            <th scope="col"><h6 align="center"><b>Заголовок</b></h6></th>
+            <th scope="col"><h6 align="center"><b>Категория</b></h6></th>
+            <th scope="col"><h6 align="center"><b>Дата публикации</b></h6></th>
+            <th scope="col"><h6 align="center"><b>Текст</b></h6></th>
+            <th scope="col"><h6 align="center"><b>Тип</b></h6></th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
@@ -34,13 +36,36 @@
         {% for post_n in posts %}
         <tr>
             <td ><a href="../news/{{ post_n.pk }}">{{ post_n.title }}</a></td>
+            <td>
+                {% for category in post_n.category.all %}
+                    <div class="col">
+                        <h6 align="center">
+                            <a href="{% url 'category_list' category.id %}">{{ category }}</a>
+                        </h6>
+                    </div>
+                {% endfor %}
+            </td>
             <td>{{ post_n.add_date_time | date:'d M Y' }}</td>
             <td>{{ post_n.text | truncatechars:20|censor}}</td>
 
+
         {% if post_n.category_type == "NE" %}
-            <td><p> Новость </p></td>
+            <td>
+                <div class="col">
+                    <h6 align="center">
+                       Новость
+                    </h6>
+                </div>
+            </td>
+
         {% elif post_n.category_type == "AR" %}
-            <td><p> Статья </p></td>
+            <td>
+                <div class="col">
+                    <h6 align="center">
+                       Статья
+                    </h6>
+                </div>
+            </td>
         {% endif %}
 
 

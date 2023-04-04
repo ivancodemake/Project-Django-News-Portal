@@ -26,6 +26,7 @@ class Author(models.Model):
 
 class Category(models.Model):
     name_cat = models.CharField(max_length=100, unique=True)
+    subscribers = models.ManyToManyField(User, related_name='categories')
 
     def __str__(self):
         return f"{self.name_cat}"
@@ -39,7 +40,7 @@ class Post(models.Model):
 
     category_type = models.CharField(max_length=2, choices=type, default=Article)
     add_date_time = models.DateTimeField(auto_now_add=True)
-    category = models.ManyToManyField(Category, through='PostCategory')
+    category = models.ManyToManyField(Category, through='PostCategory', related_name='news')
     title = models.CharField(max_length=256)
     text = models.TextField()
     post_rating = models.IntegerField(default=0)
