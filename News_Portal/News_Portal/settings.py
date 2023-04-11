@@ -16,6 +16,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+import redis
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'django_filters',
     'django_apscheduler',
 ]
 
@@ -173,3 +176,12 @@ ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25
+
+CELERY_BROKER_URL = 'redis://default:lZXDbkGUn2N2K2N1EkejcvsLkZQxIu0C@redis-12164.c55.eu-central-1-1.ec2.cloud.redislabs.com:12164'
+CELERY_RESULT_BACKEND = 'redis://default:lZXDbkGUn2N2K2N1EkejcvsLkZQxIu0C@redis-12164.c55.eu-central-1-1.ec2.cloud.redislabs.com:12164'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+
+

@@ -45,7 +45,13 @@
                     </div>
                 {% endfor %}
             </td>
-            <td>{{ post_n.add_date_time | date:'d M Y' }}</td>
+            <td>
+                <div class="col">
+                        <h6 align="center">
+                            {{ post_n.add_date_time | date:'d M Y' }}
+                        </h6>
+                </div>
+            </td>
             <td>{{ post_n.text | truncatechars:20|censor}}</td>
 
 

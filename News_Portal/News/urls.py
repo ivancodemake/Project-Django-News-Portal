@@ -3,9 +3,11 @@ from .views import PostsList, PostDetail, SearchPosts
 from .views import ArticleCreate, ArticleUpdate, ArticleDelete
 from .views import NewsCreate, NewsUpdate, NewsDelete
 from .views import start_page, CategoryListView, subscribe, del_subscribe
+# from .views import IndexView
 
 urlpatterns = [
    path('', start_page),
+   # path('', IndexView.as_view()),
    path('news/', PostsList.as_view(), name='posts_list'),
    path('news/<int:pk>/', PostDetail.as_view(), name='post_detail'),
    path('search/', SearchPosts.as_view(), name='search_posts'),

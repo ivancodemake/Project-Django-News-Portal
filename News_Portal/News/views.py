@@ -8,6 +8,9 @@ from .filters import PostFilter
 from django.contrib.auth.decorators import login_required
 
 from django.views.generic.base import View
+from django.http import HttpResponse
+# from django.views import View
+# from .tasks import hello, printer
 
 
 def start_page(request):
@@ -25,7 +28,7 @@ class PostsList(ListView, View):
     model = Post
     # ar_ne = "category_type"
     ordering = '-add_date_time'
-    template_name = 'flatpages/News.html'
+    template_name = 'flatpages/news.html'
     context_object_name = 'posts'
 
 
@@ -167,3 +170,10 @@ def del_subscribe(request, pk):
 
     message = 'Вы успешно отписались от рассылки новостей категории - '
     return render(request, 'flatpages/subscribe.html', {'category': category, 'message': message})
+
+
+# class IndexView(View):
+#     def get(self, request):
+#         printer.apply_async([10], countdown=5)
+#         hello.delay()
+#         return HttpResponse('Hello!')
