@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 
+
     <head>
         <title>{% block title %} {% endblock title %}</title>
 
@@ -11,6 +12,11 @@
     </head>
 
     <body>
+
+{% load cache %}
+
+{% cache 30 header %}
+{% block header %}
 
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
@@ -33,7 +39,11 @@
     </div>
 </div>
 
-       {% block content %} {% endblock %}
+{% endblock header %}
+{% endcache %}
+
+{% block content %} {% endblock %}
 
     </body>
+
 </html>

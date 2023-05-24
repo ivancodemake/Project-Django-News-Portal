@@ -3,11 +3,13 @@ from .views import PostsList, PostDetail, SearchPosts
 from .views import ArticleCreate, ArticleUpdate, ArticleDelete
 from .views import NewsCreate, NewsUpdate, NewsDelete
 from .views import start_page, CategoryListView, subscribe, del_subscribe
-# from .views import IndexView
+from django.views.decorators.cache import cache_page
+
 
 urlpatterns = [
    path('', start_page),
-   # path('', IndexView.as_view()),
+   # path('news/', cache_page(60*1)(PostsList.as_view()), name='posts_list'),
+   # path('news/<int:pk>/', cache_page(60*5)(PostDetail.as_view()), name='post_detail'),
    path('news/', PostsList.as_view(), name='posts_list'),
    path('news/<int:pk>/', PostDetail.as_view(), name='post_detail'),
    path('search/', SearchPosts.as_view(), name='search_posts'),
